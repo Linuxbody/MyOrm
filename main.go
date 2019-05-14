@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
+	// _ 下划线，只是执行一下这个包的init函数
 	_ "github.com/go-sql-driver/mysql"
-	_ "MyOrm/routers"
+    _ "MyOrm/routers"
 )
 
 func init() {
@@ -26,9 +27,14 @@ func init() {
     orm.RegisterDataBase("default", "mysql", conn)
  
     fmt.Printf("数据库连接成功！%s\n", conn)
+    // 自动建表
+    // default,使用默认数据库
+    // 默认false, 是否更新数据库表结构
+    // 默认true，是否显示创建过程
+    orm.RunSyncdb("default", false, true)
 }
 
 func main() {
 	beego.Run()
 }
-// https://www.cnblogs.com/tudaogaoyang/p/7975650.html
+
